@@ -46,8 +46,14 @@ async function createPost(req, res) {
   res.redirect("/admin");
 }
 
-async function editPost(req, res) {
-  const post = new Post(null, null, req.params.id);
+async function editPost(req, res, next) {
+  let post;
+  try {
+    post = new Post(null, null, req.params.id);
+  } catch (error) {
+    return next(error);
+  }
+
   await post.fetch();
 
   if (!post.title || !post.content) {

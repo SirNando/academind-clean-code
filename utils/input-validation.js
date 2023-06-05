@@ -1,3 +1,5 @@
+const db = require("../data/database");
+
 function postIsValid(title, content) {
   if (title && content && title.trim() !== "" && content.trim() !== "") {
     return true;
@@ -21,7 +23,13 @@ function signupCredentialsAreValid(email, password, confirmedemail) {
   }
 }
 
+async function userExists(email) {
+  const res = await db.getDb().collection("users").findOne({ email: email });
+  return res;
+}
+
 module.exports = {
   postIsValid,
   signupCredentialsAreValid,
+  userExists,
 };

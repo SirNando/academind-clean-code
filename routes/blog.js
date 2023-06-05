@@ -1,9 +1,12 @@
 const express = require("express");
 const blogControllers = require("../controllers/post-controllers");
+const guardRoute = require('../middlewares/auth-protection-middleware');
 
 const router = express.Router();
 
 router.get("/", blogControllers.getHome);
+
+router.use(guardRoute); // Every route after this line will require authentication
 
 router.get("/admin", blogControllers.getAdmin);
 
